@@ -2,17 +2,11 @@ import React, { Component , useContext, useState} from "react";
 import propTypes from "prop-types";
 import rigoBaby from "../../img/rigo-baby.jpg"
 import { Context } from "../store/appContext"
+import { useNavigate } from "react-router";
 
 export const Card = (props) => {
     const {store,actions} = useContext(Context)
-
-    function getItem(){
-        if(props.type === "Character"){
-            actions.getPersonaje(props.url)
-        }else if (props.type === "Planet") {
-            actions.getPlanet(props.url)    
-        }
-    }
+    const navigate = useNavigate()
 
     return(
         <div className="card" style={{"width": 18+"rem"}}>
@@ -21,7 +15,13 @@ export const Card = (props) => {
                 <h5 className="card-title text-start">{props.nombre}</h5>
                 <p className="card-text text-start">UID: {props.uid}</p>
                 <div className="d-flex">
-                    <button type="button" onClick={getItem} data-bs-toggle="modal" data-bs-target={"#moreInfo"+props.type} className="btn btn-primary">More info</button>
+                    <button type="button" onClick={()=>{
+                        if(props.type==="Character"){
+                            navigate(`/details/${props.uid}`)
+                        }else if(props.type==="Planet"){
+                            navigate(`/planet_details/${props.uid}`)
+                        }
+                        }} className="btn btn-primary">More info</button>
                     <span className="col-5"></span>
                     <button type="button" className="btn btn-outline-warning">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-heart" viewBox="0 0 16 16">

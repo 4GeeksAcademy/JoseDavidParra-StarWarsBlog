@@ -13,12 +13,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 					initial: "white"
 				}
 			],
-
+			favorites: [],
 			characters: [],
 			planets: [],
-			character : {},
-			planet: {}
-			
+			item:{}
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -55,27 +53,34 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ demo: demo });
 			},
 
-			getPersonaje:(url) => {
-				fetch(url,{method:'GET'})
+			addFavorite:(name)=>{
+				const store = getStore();
+
+				if(store.favorites.includes(name)){
+					console.log("Already in favorites");
+				}else{
+					setStore({favorites: [...store.favorites,name]})
+				}
+
+			},
+
+			getPersonaje:(id) => {
+				fetch(`https://www.swapi.tech/api/people/${id}`,{method:'GET'})
 				.then(response=>response.json())
-				.then(data=>setStore({character : data.result.properties}))
+				.then(data=>setStore({item : data.result.properties}))
 				.catch(error=>console.log(error))
 			},
 
-			getPlanet:(url) =>{
-				fetch(url,{method:'GET'})
+			getPlanet:(id) =>{
+				fetch(`https://www.swapi.tech/api/planets/${id}`,{method:'GET'})
 				.then(response=>response.json())
-				.then(data=>setStore({planet : data.result.properties}))
+				.then(data=>setStore({item : data.result.properties}))
 				.catch(error=>console.log(error))
 			},
 
-			emptyCharacter: () => {
-				setStore({character: {} })
+			emptyItem: () => {
+				setStore({item: {} })
 			},
-
-			emptyPlanet: () => {
-				setStore({planet: {} })
-			}
 		}
 	};
 };
