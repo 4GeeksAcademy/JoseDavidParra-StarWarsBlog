@@ -64,6 +64,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			},
 
+			deleteFavorite:(index)=>{
+				const store = getStore()
+				store.favorites.splice(index,1)
+				setStore({favorites : store.favorites})
+			},
+
 			getPersonaje:(id) => {
 				fetch(`https://www.swapi.tech/api/people/${id}`,{method:'GET'})
 				.then(response=>response.json())
